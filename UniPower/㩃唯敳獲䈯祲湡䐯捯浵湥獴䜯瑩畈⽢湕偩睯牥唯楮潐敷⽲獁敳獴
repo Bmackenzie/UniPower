@@ -1,0 +1,17 @@
+System Time,RDTSC,Elapsed Time (sec),CPU Frequency_0(MHz),Processor Power_0(Watt),Cumulative Processor Energy_0(Joules),Cumulative Processor Energy_0(mWh),IA Power_0(Watt),Cumulative IA Energy_0(Joules),Cumulative IA Energy_0(mWh),Package Temperature_0(C),Package Hot_0,GT Power_0(Watt),Cumulative GT Energy_0(Joules),Cumulative GT Energy_0(mWh),Package Power Limit_0(Watt),GT Frequency(MHz)
+16:53:49:846, 15106838743549,    4.996,  800,   5.119,  25.576,   7.104,   1.278,   6.386,   1.774, 58,  0,   0.632,   3.159,   0.877,  25.000, 1100
+
+Total Elapsed Time (sec) = 4.995793
+Measured RDTSC Frequency (GHz) = 2.594
+
+Cumulative Processor Energy_0 (Joules) = 25.575745
+Cumulative Processor Energy_0 (mWh) = 7.104374
+Average Processor Power_0 (Watt) = 5.119457
+
+Cumulative IA Energy_0 (Joules) = 6.385559
+Cumulative IA Energy_0 (mWh) = 1.773766
+Average IA Power_0 (Watt) = 1.278187
+
+Cumulative GT Energy_0 (Joules) = 3.158875
+Cumulative GT Energy_0 (mWh) = 0.877465
+Average GT Power_0 (Watt) = 0.632307

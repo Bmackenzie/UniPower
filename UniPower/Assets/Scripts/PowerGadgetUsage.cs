@@ -9,6 +9,11 @@ public class PowerGadgetUsage : MonoBehaviour
 {
     [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Ansi)]
     static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)]string lpFileName);
+    [DllImport("kernel32.dll")]
+    static extern uint GetLastError();
+    [DllImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    static extern bool FreeLibrary(IntPtr hModule);
     [DllImport("EnergyLib32")]
     public static extern bool IntelEnergyLibInitialize(); 
     [DllImport("EnergyLib32")]
@@ -29,15 +34,7 @@ public class PowerGadgetUsage : MonoBehaviour
     public static extern bool StartLog(string buffer);
 
     /*Variables*/
-    private static IntPtr module;
-
-    //Status variable
-    bool pInitialize;
-    bool pIsGTAvailable;
-    bool pGetNumNodes;
-    bool pGetNumMsrs;
-    bool pGetIAFrequency;
-    bool pGetGTFrequency;
+    private IntPtr module;
 
     //Tracking variables
     int pNodeCount = 0;
@@ -45,59 +42,41 @@ public class PowerGadgetUsage : MonoBehaviour
     int pIAFreq = 0;
     int pGTFreq = 0;
 
+    void Awake()
+    {
+        ///Load the Power Gadget library
+        LoadNativeDll("C:\\Program Files\\Intel\\Power Gadget 3.0\\EnergyLib32.dll");
+    }
 	// Use this for initialization
 	void Start () 
     {
-        ///Load the Power Gadget library
-        //LoadNativeDll("C://Program Files (x86)//Intel//Power Gadget 3.0//EnergyLib32.dll");
-        LoadNativeDll("C:\\Program Files (x86)\\Intel\\Power Gadget 3.0\\EnergyLib32.dll");
+        //Initialize and connect to the driver
+        if (IntelEnergyLibInitialize() != true){Debug.Log("Failed to initialized!");}
 
-        pInitialize = IntelEnergyLibInitialize();
-        if (pInitialize != true)
-        {
-            Debug.Log("Failed to initialized!");
-        }
+        //Check if Intel Graphics is available on this platform, print GT frequency
+        if (IsGTAvailable() && GetGTFrequency(out pGTFreq) == true) { Debug.Log("GPU frequency: " + pGTFreq + "MHz"); } 
+ 
+        //Get and print CPU frequency
+        if (GetIAFrequency(1, out pIAFreq) == true) { Debug.Log("CPU Frequency: " + pIAFreq + "MHz"); }
+    
+        //Chek the number of CPU packages on the system
+        if (GetNumNodes(out pNodeCount) == true){Debug.Log("CPUs: " + pNodeCount);}
 
-        pIsGTAvailable = IsGTAvailable();
-        if (pIsGTAvailable != true)
-        {
-            pGetGTFrequency = GetGTFrequency(out pGTFreq);
-            if (pGetGTFrequency == true)
-            {
-                Debug.Log("GPU frequency: " + pGTFreq);
-            }
-        }
+        //Get the number of supported MSRs for bulk reading and logging
+        if (GetNumMsrs(out pMSRCount) == true){Debug.Log("Total supported MSRs: " + pMSRCount);}
 
-        pGetNumNodes = GetNumNodes(out pNodeCount);
-        if (pGetNumNodes == true)
-        {
-            Debug.Log("CPUs: " + pNodeCount);
-        }
-
-        pGetNumMsrs = GetNumMsrs(out pMSRCount);
-        if (pGetNumMsrs == true)
-        {
-            Debug.Log("Total supported MSRs: " + pMSRCount);
-        }
-
-        pGetIAFrequency = GetIAFrequency(1, out pIAFreq);
-        if (pGetIAFrequency == true)
-        {
-            Debug.Log("CPU Frequency: " + pIAFreq);
-        }
-
-        if(ReadSample())
+        if (ReadSample())
         {
             Debug.Log("sample read");
+            Invoke("StartLog", 0);
+            Invoke("StopLogging", 5);
         }
-        Invoke("StartLog", 5);
-        Invoke("StopLogging", 15);
 	}
     void StartLog()
     {
-        if (StartLog("C:\\User\\Bryan\\Desktop\\data.csv"))
+        if (StartLog(Application.dataPath))
         {
-            Debug.Log("log started");
+            Debug.Log("log started " + Application.dataPath);
         }
     }
 
@@ -109,28 +88,44 @@ public class PowerGadgetUsage : MonoBehaviour
         }
     }
 
-    void Update()
+    void OnDisable()
     {
-        ReadSample();
-        pGetNumMsrs = GetNumMsrs(out pMSRCount);
+        //Make sure there is something to release
+        if (module != IntPtr.Zero)
+        {
+            //release the module
+            if (FreeLibrary(module))
+            {
+                Debug.Log("Library released");
+            }
+        }
     }
 
     /// <summary>
     /// Load a native library
     /// </summary>
     /// <param name="FileName"></param>
-    public static void LoadNativeDll(string FileName)
+    public bool LoadNativeDll(string FileName)
     {
+        //Make sure that the module isn't already loaded
         if (module != IntPtr.Zero)
         {
             Debug.Log("Library has alreay been loaded.");
-            return;
+            return false;
         }
 
+        //Load the module
         module = LoadLibrary(FileName);
+        Debug.Log("last error = " + Marshal.GetLastWin32Error());
+        //Make sure the module has loaded sucessfully
         if (module == IntPtr.Zero)
         {
             throw new Win32Exception();
+            return false;
+        }
+        else 
+        {
+            return true;
         }
     }
 }
