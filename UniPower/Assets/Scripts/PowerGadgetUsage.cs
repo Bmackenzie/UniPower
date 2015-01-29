@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using UnityEngine;
 using System.Collections;
@@ -48,9 +49,8 @@ public class PowerGadgetUsage : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-        ///Load the Power Gadget library
-        //LoadNativeDll("C://Program Files (x86)//Intel//Power Gadget 3.0//EnergyLib32.dll");
-        LoadNativeDll("C:\\Program Files (x86)\\Intel\\Power Gadget 3.0\\EnergyLib32.dll");
+        ///Check and Load the Power Gadget library
+        CheckLoadPowerGadget();
 
         pInitialize = IntelEnergyLibInitialize();
         if (pInitialize != true)
@@ -59,7 +59,7 @@ public class PowerGadgetUsage : MonoBehaviour
         }
 
         pIsGTAvailable = IsGTAvailable();
-        if (pIsGTAvailable != true)
+        if (pIsGTAvailable == true)
         {
             pGetGTFrequency = GetGTFrequency(out pGTFreq);
             if (pGetGTFrequency == true)
@@ -116,6 +116,24 @@ public class PowerGadgetUsage : MonoBehaviour
     }
 
     /// <summary>
+    /// Checks if Intel Power Gadget is installed on the system, then loads it
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckLoadPowerGadget()
+    {
+        string isInstalled = System.Environment.GetEnvironmentVariable("IPG_Dir");
+
+        if (isInstalled != null)
+        {
+            LoadNativeDll(isInstalled + "\\EnergyLib32.dll");
+            return true;
+        }
+
+        Debug.Log("Failed to locate/Load Power Gadget please check your install");
+        return false;
+    }
+
+    /// <summary>
     /// Load a native library
     /// </summary>
     /// <param name="FileName"></param>
@@ -133,4 +151,6 @@ public class PowerGadgetUsage : MonoBehaviour
             throw new Win32Exception();
         }
     }
+
+    
 }
