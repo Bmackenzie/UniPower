@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 public class PowerGadgetUsage : MonoBehaviour 
 {
+    public GameObject[] DataPoints;
 
     /* TODO:
     Implement the following API calls:
@@ -45,12 +47,11 @@ public class PowerGadgetUsage : MonoBehaviour
     public static extern bool GetNumNodes(out int nNodes);
     [DllImport("EnergyLib32")]
     public static extern bool GetNumMsrs(out int nMsr);
+
     [DllImport("EnergyLib32", CharSet = CharSet.Unicode)]
     public static extern bool GetMsrName(int iMsr, StringBuilder szName);
-
     [DllImport("EnergyLib32")]
     public extern static bool GetMsrFunc(int iMsr, out int pFuncID);
-
     [DllImport("EnergyLib32")]
     public extern static bool GetPowerData(int iNode, int iMSR, out double pResult, out int nResult);
     
@@ -70,12 +71,19 @@ public class PowerGadgetUsage : MonoBehaviour
     int pIAFreq = 0;
     int pGTFreq = 0;
     int pMsrpFuncID = 0;
+
+    /// <summary>
+    /// Called once 
+    /// </summary>
     void Awake()
     {
         ///Load the Power Gadget library
         LoadNativeDll("C:\\Program Files\\Intel\\Power Gadget 3.0\\EnergyLib32.dll");
     }
-	// Use this for initialization
+
+    /// <summary>
+    /// Called once
+    /// </summary>
 	void Start () 
     {
         //Initialize and connect to the driver
@@ -106,11 +114,7 @@ public class PowerGadgetUsage : MonoBehaviour
         if (GetNumMsrs(out pMSRCount) == true)
         {
             Debug.Log("Total supported MSRs: " + pMSRCount);
-            //Hack for the weird msr node count increment issue every run. 
-            if (pNodeCount > 6)
-            {
-                pNodeCount = 6;
-            }
+            DataPoints[0].GetComponent<Text>().text = pMSRCount.ToString();
         }
 
         // Not sure what the purpose of this function is 
@@ -118,6 +122,7 @@ public class PowerGadgetUsage : MonoBehaviour
         {
             Debug.Log("MsrFunc: " + pMsrpFuncID);
         }
+
         double _double = 0.0;
         int _int = 0;
         if (GetPowerData(1, 1, out _double, out _int))
@@ -189,11 +194,11 @@ public class PowerGadgetUsage : MonoBehaviour
         //Load the module
         module = LoadLibrary(FileName);
         Debug.Log("last error = " + Marshal.GetLastWin32Error());
+
         //Make sure the module has loaded sucessfully
         if (module == IntPtr.Zero)
         {
             throw new Win32Exception();
-            return false;
         }
         else 
         {
