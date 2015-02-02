@@ -114,7 +114,7 @@ public class PowerGadgetUsage : MonoBehaviour
         if (GetNumMsrs(out pMSRCount) == true)
         {
             Debug.Log("Total supported MSRs: " + pMSRCount);
-            DataPoints[0].GetComponent<Text>().text = pMSRCount.ToString();
+            DataPoints[0].GetComponent<Text>().text = "MSR reported Count = " + pMSRCount.ToString();
         }
 
         // Not sure what the purpose of this function is 
