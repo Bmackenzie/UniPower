@@ -80,7 +80,6 @@ public class PowerGadgetUsage : MonoBehaviour
         {
             Debug.Log("CPUs: " + pNodeCount);
         }
-        
 
         // Not sure what the purpose of this function is 
         if (GetMsrFunc(1, out pMsrpFuncID))
@@ -104,8 +103,8 @@ public class PowerGadgetUsage : MonoBehaviour
             }
         }
 
-        //Invoke("StartLog", 0);
-        //Invoke("StopLogging", 5);
+        Invoke("StartLog", 0);
+        Invoke("StopLogging", 5);
 
         //if (ReadSample())
         //{
