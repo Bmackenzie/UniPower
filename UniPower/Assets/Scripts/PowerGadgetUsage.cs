@@ -8,8 +8,6 @@ using System.Runtime.InteropServices;
 
 public class PowerGadgetUsage : MonoBehaviour 
 {
-    public GameObject[] DataPoints;
-
     /* TODO:
     Implement the following API calls:
      
@@ -28,15 +26,9 @@ public class PowerGadgetUsage : MonoBehaviour
         bool GetBaseFrequency(int iNode, double *pBaseFrequency); - Returns in pBaseFrequency the advertised processor frequency for the package specified by iNode.
      */
 
-    [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Ansi)]
-    static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)]string lpFileName);
     [DllImport("kernel32.dll")]
     static extern uint GetLastError();
-    [DllImport("kernel32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    static extern bool FreeLibrary(IntPtr hModule);
-    [DllImport("EnergyLib32")]
-    public static extern bool IntelEnergyLibInitialize(); 
+    
     [DllImport("EnergyLib32")]
     public static extern bool ReadSample();
     [DllImport("EnergyLib32")]
@@ -45,8 +37,6 @@ public class PowerGadgetUsage : MonoBehaviour
     public static extern bool IsGTAvailable(); 
     [DllImport("EnergyLib32")]
     public static extern bool GetNumNodes(out int nNodes);
-    [DllImport("EnergyLib32")]
-    public static extern bool GetNumMsrs(out int nMsr);
 
     [DllImport("EnergyLib32", CharSet = CharSet.Unicode)]
     public static extern bool GetMsrName(int iMsr, StringBuilder szName);
@@ -62,36 +52,17 @@ public class PowerGadgetUsage : MonoBehaviour
     [DllImport("EnergyLib32")]
     public static extern bool StartLog(string buffer);
 
-    /*Variables*/
-    private IntPtr module;
-
     //Tracking variables
-    int pNodeCount = 0;
-    int pMSRCount = 0;
     int pIAFreq = 0;
     int pGTFreq = 0;
     int pMsrpFuncID = 0;
-
-    /// <summary>
-    /// Called once 
-    /// </summary>
-    void Awake()
-    {
-        ///Load the Power Gadget library
-        LoadNativeDll("C:\\Program Files\\Intel\\Power Gadget 3.0\\EnergyLib32.dll");
-    }
-
+    int pNodeCount = 0;
+    
     /// <summary>
     /// Called once
     /// </summary>
 	void Start () 
     {
-        //Initialize and connect to the driver
-        if (IntelEnergyLibInitialize() != true)
-        {
-            Debug.Log("Failed to initialized!");
-        }
-
         //Check if Intel Graphics is available on this platform, print GT frequency
         if (IsGTAvailable() && GetGTFrequency(out pGTFreq) == true) 
         { 
@@ -109,13 +80,7 @@ public class PowerGadgetUsage : MonoBehaviour
         {
             Debug.Log("CPUs: " + pNodeCount);
         }
-
-        //Get the number of supported MSRs for bulk reading and logging
-        if (GetNumMsrs(out pMSRCount) == true)
-        {
-            Debug.Log("Total supported MSRs: " + pMSRCount);
-            DataPoints[0].GetComponent<Text>().text = "MSR reported Count = " + pMSRCount.ToString();
-        }
+        
 
         // Not sure what the purpose of this function is 
         if (GetMsrFunc(1, out pMsrpFuncID))
@@ -130,7 +95,7 @@ public class PowerGadgetUsage : MonoBehaviour
             Debug.Log("Power Data: " + _double + " + " + _int);
         }
 
-        for (int i = 0; i < pMSRCount; i++)
+        for (int i = 0; i < 6; i++)
         {
             StringBuilder b = new StringBuilder();
             if (GetMsrName(i, b))
@@ -162,47 +127,6 @@ public class PowerGadgetUsage : MonoBehaviour
         if (StopLog())
         {
             Debug.Log("log stopped");
-        }
-    }
-
-    void OnDisable()
-    {
-        //Make sure there is something to release
-        if (module != IntPtr.Zero)
-        {
-            //release the module
-            if (FreeLibrary(module))
-            {
-                Debug.Log("Library released");
-            }
-        }
-    }
-
-    /// <summary>
-    /// Load a native library
-    /// </summary>
-    /// <param name="FileName"></param>
-    public bool LoadNativeDll(string FileName)
-    {
-        //Make sure that the module isn't already loaded
-        if (module != IntPtr.Zero)
-        {
-            Debug.Log("Library has alreay been loaded.");
-            return false;
-        }
-
-        //Load the module
-        module = LoadLibrary(FileName);
-        Debug.Log("last error = " + Marshal.GetLastWin32Error());
-
-        //Make sure the module has loaded sucessfully
-        if (module == IntPtr.Zero)
-        {
-            throw new Win32Exception();
-        }
-        else 
-        {
-            return true;
         }
     }
 }
