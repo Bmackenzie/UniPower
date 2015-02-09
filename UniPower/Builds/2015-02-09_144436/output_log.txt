@@ -18,7 +18,7 @@ Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\Powe
 Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\PowerGadget_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
 Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\PowerGadget_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\PowerGadget_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.075 seconds
+- Completed reload, in  0.132 seconds
 desktop: 1920x1080 59Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 XInput1_3.dll not found.
@@ -41,7 +41,7 @@ GPU frequency: 0MHz
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-CPU Frequency: 800MHz
+CPU Frequency: 2800MHz
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
@@ -60,7 +60,7 @@ log started C:/Users/Bryan/Documents/GitHub/UniPower/UniPower/Builds/PowerGadget
 Crash!!!
 SymInit: Symbol-SearchPath: '.;C:\Users\Bryan\Documents\GitHub\UniPower\UniPower;C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds;C:\Windows;C:\Windows\system32;SRV*C:\websymbols*http://msdl.microsoft.com/download/symbols;', symOptions: 530, UserName: 'Bryan'
 OS-Version: 6.2.9200 () 0x300-0x1
-C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\PowerGadget.exe:PowerGadget.exe (01140000), size: 12279808 (result: 0), SymType: '-exported-', PDB: 'C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\PowerGadget.exe', fileVersion: 4.6.2.61182
+C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\PowerGadget.exe:PowerGadget.exe (00B10000), size: 12279808 (result: 0), SymType: '-exported-', PDB: 'C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\PowerGadget.exe', fileVersion: 4.6.2.61182
 C:\Windows\SYSTEM32\ntdll.dll:ntdll.dll (77CE0000), size: 1470464 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\SYSTEM32\ntdll.dll', fileVersion: 6.3.9600.17278
 C:\Windows\SYSTEM32\KERNEL32.DLL:KERNEL32.DLL (75700000), size: 1310720 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\SYSTEM32\KERNEL32.DLL', fileVersion: 6.3.9600.17056
 C:\Windows\SYSTEM32\KERNELBASE.dll:KERNELBASE.dll (773E0000), size: 851968 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\SYSTEM32\KERNELBASE.dll', fileVersion: 6.3.9600.17278
@@ -128,32 +128,36 @@ C:\Windows\SYSTEM32\oleacc.dll:oleacc.dll (6E0F0000), size: 294912 (result: 0), 
 C:\Program Files\Intel\Power Gadget 3.0\EnergyLib32.dll:EnergyLib32.dll (58660000), size: 57344 (result: 0), SymType: '-exported-', PDB: 'C:\Program Files\Intel\Power Gadget 3.0\EnergyLib32.dll'
 C:\Windows\SYSTEM32\MSVCP100.dll:MSVCP100.dll (72D40000), size: 430080 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\SYSTEM32\MSVCP100.dll', fileVersion: 10.0.40219.325
 C:\Windows\SYSTEM32\MSVCR100.dll:MSVCR100.dll (72C80000), size: 782336 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\SYSTEM32\MSVCR100.dll', fileVersion: 10.0.40219.325
-C:\Windows\SYSTEM32\dbghelp.dll:dbghelp.dll (079E0000), size: 1343488 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\SYSTEM32\dbghelp.dll', fileVersion: 6.3.9600.16520
+C:\Windows\SYSTEM32\dbghelp.dll:dbghelp.dll (07BB0000), size: 1343488 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\SYSTEM32\dbghelp.dll', fileVersion: 6.3.9600.16520
 
 ========== OUTPUTING STACK TRACE ==================
 
-(0x72C81ED7) (MSVCR100): (filename not available): memcpy + 0x57
-(0x5866183D) (EnergyLib32): (filename not available): (function-name not available) + 0x0
+(0x773F2F71) (KERNELBASE): (filename not available): RaiseException + 0x48
+(0x72CA872D) (MSVCR100): (filename not available): CxxThrowException + 0x45
+(0x72CBF30F) (MSVCR100): (filename not available): fcloseall + 0x6835
+(0x5866204E) (EnergyLib32): (filename not available): (function-name not available) + 0x0
+(0x58661D8F) (EnergyLib32): (filename not available): (function-name not available) + 0x0
+(0x58661BB5) (EnergyLib32): (filename not available): (function-name not available) + 0x0
 (0x58665B86) (EnergyLib32): (filename not available): GetPowerData + 0x1746
 (0x58664211) (EnergyLib32): (filename not available): GetMsrName + 0x21
-(0x041E4FA2) (Mono JIT code): (filename not available):  (wrapper managed-to-native) PowerGadgetUsage:GetMsrName (int,System.Text.StringBuilder) + 0x3a (041E4F68 041E4FD8) [03914E70 - Unity Root Domain] + 0x0
-(0x041E4D16) (Mono JIT code): (filename not available):  PowerGadgetUsage:GetData () + 0x5e (041E4CB8 041E4E80) [03914E70 - Unity Root Domain] + 0x0
-(0x041CE849) (Mono JIT code): (filename not available):  (wrapper runtime-invoke) object:runtime_invoke_void__this__ (object,intptr,intptr,intptr) + 0x41 (041CE808 041CE89D) [03914E70 - Unity Root Domain] + 0x0
+(0x0437466A) (Mono JIT code): (filename not available):  (wrapper managed-to-native) PowerGadgetUsage:GetMsrName (int,System.Text.StringBuilder) + 0x3a (04374630 043746A0) [03A64E70 - Unity Root Domain] + 0x0
+(0x043743DE) (Mono JIT code): (filename not available):  PowerGadgetUsage:GetData () + 0x5e (04374380 04374548) [03A64E70 - Unity Root Domain] + 0x0
+(0x0435E849) (Mono JIT code): (filename not available):  (wrapper runtime-invoke) object:runtime_invoke_void__this__ (object,intptr,intptr,intptr) + 0x41 (0435E808 0435E89D) [03A64E70 - Unity Root Domain] + 0x0
 (0x100F04C7) (mono): (filename not available): mono_set_defaults + 0x22cb
 (0x1005D7CB) (mono): (filename not available): mono_runtime_invoke + 0x51
-(0x012544BE) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0x181fe
-(0x012F5279) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0xb8fb9
-(0x012F54AE) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0xb91ee
-(0x012F554C) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0xb928c
-(0x01244D52) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0x8a92
-(0x01245306) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0x9046
-(0x012520C5) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0x15e05
-(0x0122E1CB) (PowerGadget): (filename not available): Behaviour::Transfer<StreamedBinaryWrite<0> > + 0x1adb
-(0x012BFC73) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0x839b3
-(0x0133913B) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0xfce7b
-(0x0133AC25) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0xfe965
-(0x015AD088) (PowerGadget): (filename not available): AnimationEvent::Transfer<StreamedBinaryRead<1> > + 0x123bf8
-(0x015E1F70) (PowerGadget): (filename not available): AnimationEvent::Transfer<StreamedBinaryRead<1> > + 0x158ae0
+(0x00C244BE) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0x181fe
+(0x00CC5279) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0xb8fb9
+(0x00CC54AE) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0xb91ee
+(0x00CC554C) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0xb928c
+(0x00C14D52) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0x8a92
+(0x00C15306) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0x9046
+(0x00C220C5) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0x15e05
+(0x00BFE1CB) (PowerGadget): (filename not available): Behaviour::Transfer<StreamedBinaryWrite<0> > + 0x1adb
+(0x00C8FC73) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0x839b3
+(0x00D0913B) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0xfce7b
+(0x00D0AC25) (PowerGadget): (filename not available): Object::Transfer<ProxyTransfer> + 0xfe965
+(0x00F7D088) (PowerGadget): (filename not available): AnimationEvent::Transfer<StreamedBinaryRead<1> > + 0x123bf8
+(0x00FB1F70) (PowerGadget): (filename not available): AnimationEvent::Transfer<StreamedBinaryRead<1> > + 0x158ae0
 (0x7571919F) (KERNEL32): (filename not available): BaseThreadInitThunk + 0xe
 (0x77D30BBB) (ntdll): (filename not available): RtlInitializeExceptionChain + 0x84
 (0x77D30B91) (ntdll): (filename not available): RtlInitializeExceptionChain + 0x5a

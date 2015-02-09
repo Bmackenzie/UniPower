@@ -109,12 +109,11 @@ public class PowerGadgetUsage : MonoBehaviour
             Debug.Log("MsrFunc: " + pMsrpFuncID);
         }
 
-        
-
         if (StartLog(Application.dataPath))
         {
             Debug.Log("log started " + Application.dataPath);
             isLogging = true;
+            InvokeRepeating("GetData", 1, 0.2f);
         }
 	}
 
@@ -183,6 +182,7 @@ public class PowerGadgetUsage : MonoBehaviour
             //Get the number of supported MSRs for bulk reading and logging
             if (GetNumMsrs(out pMSRCount) == true)
             {
+                debug.text += pMSRCount;
                 Debug.Log("Total supported MSRs: " + pMSRCount);
             }
         }
@@ -194,8 +194,8 @@ public class PowerGadgetUsage : MonoBehaviour
 
     double _double = 0.0;
     int _int = 0;
-    
-    void Update()
+
+    void GetData()
     {
         if (isLogging)
         {
@@ -206,14 +206,29 @@ public class PowerGadgetUsage : MonoBehaviour
                     StringBuilder b = new StringBuilder();
                     if (GetMsrName(i, b))
                     {
-                        if (GetPowerData(1, i, out _double, out _int))
+                        if (GetPowerData(0, i, out _double, out _int))
                         {
-                            dataPoints[i].text = b.ToString() + ": " + _double + " : " + _int;
+                            dataPoints[i].text = b.ToString() + ": " + _int + " : " + _double;
                         }
                     }
+                    //6. Package Power Limit
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// http://stackoverflow.com/questions/2453951/c-sharp-double-tostring-formatting-with-two-decimal-places-but-no-rounding
+    /// </summary>
+    /// <param name="d"></param>
+    /// <param name="decimalPlaces"></param>
+    /// <returns></returns>
+    string DecimalPlaceNoRounding(double d, int decimalPlaces = 2)
+    {
+        d = d * Math.Pow(10, decimalPlaces);
+        d = Math.Truncate(d);
+        d = d / Math.Pow(10, decimalPlaces);
+        return string.Format("{0:N" + Math.Abs(decimalPlaces) + "}", d);
     }
 
     void OnDisbale()
