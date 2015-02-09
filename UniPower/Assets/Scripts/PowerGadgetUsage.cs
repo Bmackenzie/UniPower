@@ -8,6 +8,11 @@ using System.Runtime.InteropServices;
 
 public class PowerGadgetUsage : MonoBehaviour 
 {
+
+    public Text[] dataPoints;
+    public Text debug;
+    bool isLogging = false;
+
     /* TODO:
     Implement the following API calls:
      
@@ -26,9 +31,17 @@ public class PowerGadgetUsage : MonoBehaviour
         bool GetBaseFrequency(int iNode, double *pBaseFrequency); - Returns in pBaseFrequency the advertised processor frequency for the package specified by iNode.
      */
 
+    [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Ansi)]
+    static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)]string lpFileName);
+    [DllImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    static extern bool FreeLibrary(IntPtr hModule);
+    [DllImport("EnergyLib32")]
+    public static extern bool IntelEnergyLibInitialize();
+    [DllImport("EnergyLib32")]
+    public static extern bool GetNumMsrs(out int nMsr);
     [DllImport("kernel32.dll")]
     static extern uint GetLastError();
-    
     [DllImport("EnergyLib32")]
     public static extern bool ReadSample();
     [DllImport("EnergyLib32")]
@@ -37,14 +50,12 @@ public class PowerGadgetUsage : MonoBehaviour
     public static extern bool IsGTAvailable(); 
     [DllImport("EnergyLib32")]
     public static extern bool GetNumNodes(out int nNodes);
-
     [DllImport("EnergyLib32", CharSet = CharSet.Unicode)]
     public static extern bool GetMsrName(int iMsr, StringBuilder szName);
     [DllImport("EnergyLib32")]
     public extern static bool GetMsrFunc(int iMsr, out int pFuncID);
     [DllImport("EnergyLib32")]
     public extern static bool GetPowerData(int iNode, int iMSR, out double pResult, out int nResult);
-    
     [DllImport("EnergyLib32")]
     public static extern bool GetIAFrequency(int iNode, out int GTFreq);
     [DllImport("EnergyLib32")]
@@ -52,17 +63,28 @@ public class PowerGadgetUsage : MonoBehaviour
     [DllImport("EnergyLib32")]
     public static extern bool StartLog(string buffer);
 
+    /*Initialization variables*/
+    IntPtr module;
+    int pMSRCount = 0;
     //Tracking variables
     int pIAFreq = 0;
     int pGTFreq = 0;
     int pMsrpFuncID = 0;
     int pNodeCount = 0;
-    
+
+    void OnEnable()
+    {
+        InitilializeIntelPowerGadget();
+    }
+
     /// <summary>
     /// Called once
     /// </summary>
 	void Start () 
     {
+        QueryPlatformCounters();
+
+
         //Check if Intel Graphics is available on this platform, print GT frequency
         if (IsGTAvailable() && GetGTFrequency(out pGTFreq) == true) 
         { 
@@ -87,32 +109,118 @@ public class PowerGadgetUsage : MonoBehaviour
             Debug.Log("MsrFunc: " + pMsrpFuncID);
         }
 
-        double _double = 0.0;
-        int _int = 0;
-        if (GetPowerData(1, 1, out _double, out _int))
+        
+
+        if (StartLog(Application.dataPath))
         {
-            Debug.Log("Power Data: " + _double + " + " + _int);
+            Debug.Log("log started " + Application.dataPath);
+            isLogging = true;
+        }
+	}
+
+    /// <summary>
+    /// Initialize the Intel Power Gadget library
+    /// </summary>
+    void InitilializeIntelPowerGadget()
+    {
+        ///Load the Power Gadget library
+        LoadNativeDll("C:\\Program Files\\Intel\\Power Gadget 3.0\\EnergyLib32.dll");
+    }
+
+    /// <summary>
+    /// Load a native library
+    /// </summary>
+    /// <param name="FileName"></param>
+    bool LoadNativeDll(string FileName)
+    {
+        //Make sure that the module isn't already loaded
+        if (module != IntPtr.Zero)
+        {
+            Debug.Log("Total supported MSRs: " + pMSRCount);
+            Debug.Log(" library has alreay been loaded.");
+            debug.text += " library has alreay been loaded.";
+            return false;
         }
 
-        for (int i = 0; i < 6; i++)
+        //Load the module
+        module = LoadLibrary(FileName);
+        //sDebug.Log("last error = " + Marshal.GetLastWin32Error());
+
+        //Make sure the module has loaded sucessfully
+        if (module == IntPtr.Zero)
         {
-            StringBuilder b = new StringBuilder();
-            if (GetMsrName(i, b))
+            throw new Win32Exception();
+        }
+        else
+        {
+            Debug.Log("Library loaded.");
+            debug.text  += " library loaded";
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// Connect to the driver and return the number of MSRs available on the platform
+    /// </summary>
+    void QueryPlatformCounters()
+    {
+        //Connect to the driver
+        if (IntelEnergyLibInitialize() != true)
+        {
+            Debug.Log("Failed to initialized!");
+            debug.text += " failed to initialized!";
+
+        }
+        else
+        {
+            Debug.Log("Initialized!");
+            debug.text += " and initialized!.";
+
+        }
+
+        if (pMSRCount == 0)
+        {
+            //Get the number of supported MSRs for bulk reading and logging
+            if (GetNumMsrs(out pMSRCount) == true)
             {
-                Debug.Log("MSR name: " + b.ToString());
+                Debug.Log("Total supported MSRs: " + pMSRCount);
             }
         }
+        else
+        {
+            Debug.Log("MSRs already queried: " + pMSRCount);
+        }
+    }
 
-        Invoke("StartLog", 0);
-        Invoke("StopLogging", 5);
+    double _double = 0.0;
+    int _int = 0;
+    
+    void Update()
+    {
+        if (isLogging)
+        {
+            if (ReadSample())
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    StringBuilder b = new StringBuilder();
+                    if (GetMsrName(i, b))
+                    {
+                        if (GetPowerData(1, i, out _double, out _int))
+                        {
+                            dataPoints[i].text = b.ToString() + ": " + _double + " : " + _int;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-        //if (ReadSample())
-        //{
-        //    Debug.Log("sample read");
-        //    Invoke("StartLog", 0);
-        //    Invoke("StopLogging", 5);
-        //}
-	}
+    void OnDisbale()
+    {
+        StopLogging();
+    }
+
     void StartLog()
     {
         if (StartLog(Application.dataPath))
