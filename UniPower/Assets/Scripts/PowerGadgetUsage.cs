@@ -57,6 +57,8 @@ public class PowerGadgetUsage : MonoBehaviour
     [DllImport("EnergyLib32")]
     public extern static bool GetPowerData(int iNode, int iMSR, out double pResult, out int nResult);
     [DllImport("EnergyLib32")]
+    public extern static bool GetPowerData(int iNode, int iMSR, IntPtr pResult, out int nResult);
+    [DllImport("EnergyLib32")]
     public static extern bool GetIAFrequency(int iNode, out int GTFreq);
     [DllImport("EnergyLib32")]
     public static extern bool GetGTFrequency(out int IAFreq);
@@ -113,7 +115,7 @@ public class PowerGadgetUsage : MonoBehaviour
         {
             Debug.Log("log started " + Application.dataPath);
             isLogging = true;
-            InvokeRepeating("GetData", 1, 0.2f);
+            InvokeRepeating("GetDataNew", 1, 0.2f);
         }
 	}
 
@@ -208,14 +210,56 @@ public class PowerGadgetUsage : MonoBehaviour
                     {
                         if (GetPowerData(0, i, out _double, out _int))
                         {
+                            if (_int > 1)
+                            {
+                                Debug.Log(_int + " results for " + b.ToString());
+                            }
                             dataPoints[i].text = b.ToString() + ": " + _int + " : " + _double;
                         }
                     }
-                    //6. Package Power Limit
                 }
             }
         }
     }
+
+    IntPtr pResults;
+    int nResults = 0;
+    void GetDataNew()
+    {
+        if (isLogging)
+        {
+            if (ReadSample())
+            {
+                pResults = Marshal.AllocHGlobal(sizeof(Double) * 4);
+                for (int i = 0; i < 6; i++)
+                {
+                    StringBuilder b = new StringBuilder();
+                    if (GetMsrName(i, b))
+                    {
+                        
+                        if (GetPowerData(0, i, pResults, out nResults))
+                        {
+                            if (nResults > 1)
+                            {
+                                Double[] results = {0.0,0.0,0.0,0.0,0.0};
+                                Marshal.Copy(pResults, results, 0, nResults);
+
+                                for (int j = 1; j < nResults; j++)
+                                {
+                                    Debug.Log(b.ToString() + ": " + results[j].ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+                Marshal.FreeHGlobal(pResults);
+            }
+        }
+    }
+
+    /*
+     for (int i = 0; i < 10; i++)
+     */
 
     /// <summary>
     /// http://stackoverflow.com/questions/2453951/c-sharp-double-tostring-formatting-with-two-decimal-places-but-no-rounding
