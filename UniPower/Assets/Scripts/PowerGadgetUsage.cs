@@ -117,6 +117,7 @@ public class PowerGadgetUsage : MonoBehaviour
             isLogging = true;
             InvokeRepeating("GetDataNew", 1, 0.2f);
         }
+        Invoke("StopLogging", 60f);
 	}
 
     /// <summary>
@@ -194,34 +195,6 @@ public class PowerGadgetUsage : MonoBehaviour
         }
     }
 
-    double _double = 0.0;
-    int _int = 0;
-
-    void GetData()
-    {
-        if (isLogging)
-        {
-            if (ReadSample())
-            {
-                for (int i = 0; i < 6; i++)
-                {
-                    StringBuilder b = new StringBuilder();
-                    if (GetMsrName(i, b))
-                    {
-                        if (GetPowerData(0, i, out _double, out _int))
-                        {
-                            if (_int > 1)
-                            {
-                                Debug.Log(_int + " results for " + b.ToString());
-                            }
-                            dataPoints[i].text = b.ToString() + ": " + _int + " : " + _double;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     IntPtr pResults;
     int nResults = 0;
     void GetDataNew()
@@ -231,23 +204,33 @@ public class PowerGadgetUsage : MonoBehaviour
             if (ReadSample())
             {
                 pResults = Marshal.AllocHGlobal(sizeof(Double) * 4);
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < pMSRCount; i++)
                 {
                     StringBuilder b = new StringBuilder();
                     if (GetPowerData(0, i, pResults, out nResults))
                     {
-                        if (GetMsrName(i, b))
-                        {
-                            if (nResults > 1)
-                            {
-                                Double[] results = { 0.0, 0.0, 0.0, 0.0, 0.0 };
-                                Marshal.Copy(pResults, results, 0, nResults);
 
-                                for (int j = 0; j < nResults; j++)
+                        Double[] results = new Double[nResults];
+                        Marshal.Copy(pResults, results, 0, nResults);
+
+                        for (int j = 0; j < nResults; j++)
+                        {
+                            if (GetMsrName(i, b))
+                            {
+                                if (nResults > 1)
                                 {
-                                    Debug.Log(b.ToString() + ": " + results[j].ToString() + ": " + j);
+                                    if (j == 0)
+                                        b.Append(" Power(Watt)");
+                                    if (j == 1)
+                                        b.Append(" Cumulative Enery(Joules)");
+                                    if (j == 2)
+                                        b.Append(" Cumulative Enery(mWh)");
                                 }
                             }
+                            if(j == 0)
+                                dataPoints[i].text = b.ToString() + ": " + "<color=green>" + results[j].ToString() + "</color>";
+                            
+                            Debug.Log(b.ToString() + ": " + "<color=green>" + results[j].ToString() + "</color>");
                         }
                     }
                 }
@@ -271,6 +254,7 @@ public class PowerGadgetUsage : MonoBehaviour
 
     void StopLogging()
     {
+        isLogging = false;
         if (StopLog())
         {
             Debug.Log("log stopped");
