@@ -82,7 +82,7 @@ public class PowerGadgetUsage : MonoBehaviour
     /// <summary>
     /// Called once
     /// </summary>
-	void OnEnable () 
+	void Start() 
     {
         QueryPlatformCounters();
 
@@ -165,8 +165,7 @@ public class PowerGadgetUsage : MonoBehaviour
     /// </summary>
     void QueryPlatformCounters()
     {
-        pMSRCount = UniPowerManager.pMSRCount;
-        return;
+        //pMSRCount = UniPowerManager.pMSRCount;
 
         //Connect to the driver
         if (IntelEnergyLibInitialize() != true)

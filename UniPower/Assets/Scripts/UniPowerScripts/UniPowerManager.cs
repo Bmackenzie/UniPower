@@ -47,29 +47,6 @@ public class UniPowerManager : MonoBehaviour
         {
             ///Load the Power Gadget library
             LoadNativeDll("C:\\Program Files\\Intel\\Power Gadget 3.0\\EnergyLib32.dll");
-
-            //Initialize and connect to the driver
-            if (IntelEnergyLibInitialize() != true)
-            {
-                Debug.Log("Failed to initialized!");
-            }
-            else
-            {
-                Debug.Log("Initialized!");
-            }
-
-            if (pMSRCount == 0)
-            {
-                //Get the number of supported MSRs for bulk reading and logging
-                if (GetNumMsrs(out pMSRCount) == true)
-                {
-                    Debug.Log("Total supported MSRs: " + pMSRCount);
-                }
-            }
-            else
-            {
-                Debug.Log("MSRs already queried: " + pMSRCount);
-            }
         }
     }
 
