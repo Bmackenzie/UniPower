@@ -74,18 +74,17 @@ public class PowerGadgetUsage : MonoBehaviour
     int pMsrpFuncID = 0;
     int pNodeCount = 0;
 
-    void OnEnable()
-    {
-        InitilializeIntelPowerGadget();
-    }
+    //void OnEnable()
+    //{
+    //    InitilializeIntelPowerGadget();
+    //}
 
     /// <summary>
     /// Called once
     /// </summary>
-	void Start () 
+	void OnEnable () 
     {
         QueryPlatformCounters();
-
 
         //Check if Intel Graphics is available on this platform, print GT frequency
         if (IsGTAvailable() && GetGTFrequency(out pGTFreq) == true) 
@@ -166,6 +165,9 @@ public class PowerGadgetUsage : MonoBehaviour
     /// </summary>
     void QueryPlatformCounters()
     {
+        pMSRCount = UniPowerManager.pMSRCount;
+        return;
+
         //Connect to the driver
         if (IntelEnergyLibInitialize() != true)
         {
@@ -197,6 +199,7 @@ public class PowerGadgetUsage : MonoBehaviour
 
     IntPtr pResults;
     int nResults = 0;
+    int funcID = 0;
     void GetDataNew()
     {
         if (isLogging)
@@ -206,6 +209,76 @@ public class PowerGadgetUsage : MonoBehaviour
                 pResults = Marshal.AllocHGlobal(sizeof(Double) * 4);
                 for (int i = 0; i < pMSRCount; i++)
                 {
+                    if (GetMsrFunc(i, out funcID))
+                    {
+                        if (GetPowerData(0, i, pResults, out nResults))
+                        {
+                            Double[] results = new Double[nResults];
+                            Marshal.Copy(pResults, results, 0, nResults);
+                            StringBuilder b = new StringBuilder();
+
+                            if (GetMsrName(i, b))
+                            {
+                                switch (funcID)
+                                {
+                                        /*
+                                    case 0:
+                                        Debug.Log(b.ToString() + " Frequency: " + "<color=green>" + results[0].ToString() + "</color>");
+                                        break;
+                                    case 1:
+                                        Debug.Log(b.ToString() + " power (Watts): " + "<color=green>" + results[0].ToString() + "</color>");
+                                        Debug.Log(b.ToString() + " Cumulative Energy (Joules): " + "<color=green>" + results[1].ToString() + "</color>");
+                                        Debug.Log(b.ToString() + " Cumulative Energy (mWh): " + "<color=green>" + results[2].ToString() + "</color>");
+                                        break;
+                                    case 2:
+                                        Debug.Log(b.ToString() + " Temperature (C): " + "<color=green>" + results[0].ToString() + "</color>");
+                                        Debug.Log(b.ToString() + " Hot: " + "<color=green>" + (results[1] == 1 ? "True" : "False") + "</color>");
+                                        break;
+                                    case 3:
+                                        Debug.Log(b.ToString() + " Power limit (Watts): " + "<color=green>" + results[0].ToString() + "</color>");
+                                        break;
+                                    default:
+                                        Debug.Log(funcID.ToString() + " Default case");
+                                        break;
+                                        */
+                                    case 0:
+                                        dataPoints[0].text = b.ToString() + " Frequency: " + "<color=green>" + results[0].ToString() + "</color>";
+                                        break;
+                                    case 1:
+                                        if (b.ToString() == "Processor")
+                                        {
+                                            dataPoints[1].text = b.ToString() + " power (Watts): " + "<color=green>" + results[0].ToString() + "</color>";
+                                            dataPoints[2].text = b.ToString() + " Cumulative Energy (Joules): " + "<color=green>" + results[1].ToString() + "</color>";
+                                            dataPoints[3].text = b.ToString() + " Cumulative Energy (mWh): " + "<color=green>" + results[2].ToString() + "</color>";
+                                        }
+                                        if (b.ToString() == "GT")
+                                        {
+                                            dataPoints[4].text = b.ToString() + " power (Watts): " + "<color=green>" + results[0].ToString() + "</color>";
+                                            dataPoints[5].text = b.ToString() + " Cumulative Energy (Joules): " + "<color=green>" + results[1].ToString() + "</color>";
+                                            dataPoints[6].text = b.ToString() + " Cumulative Energy (mWh): " + "<color=green>" + results[2].ToString() + "</color>";
+                                        }
+                                        if (b.ToString() == "IA")
+                                        {
+                                            dataPoints[7].text = b.ToString() + " power (Watts): " + "<color=green>" + results[0].ToString() + "</color>";
+                                            dataPoints[8].text = b.ToString() + " Cumulative Energy (Joules): " + "<color=green>" + results[1].ToString() + "</color>";
+                                            dataPoints[9].text = b.ToString() + " Cumulative Energy (mWh): " + "<color=green>" + results[2].ToString() + "</color>";
+                                        }
+                                        break;
+                                    case 2:
+                                        dataPoints[10].text = b.ToString() + " Temperature (C): " + "<color=green>" + results[0].ToString() + "</color>";
+                                        dataPoints[11].text = b.ToString() + " Hot: " + "<color=green>" + (results[1] == 1 ? "True" : "False") + "</color>";
+                                        break;
+                                    case 3:
+                                        dataPoints[12].text = b.ToString() + " Power limit (Watts): " + "<color=green>" + results[0].ToString() + "</color>";
+                                        break;
+                                    default:
+                                        Debug.Log(funcID.ToString() + " Default case");
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                    /*
                     StringBuilder b = new StringBuilder();
                     if (GetPowerData(0, i, pResults, out nResults))
                     {
@@ -230,9 +303,10 @@ public class PowerGadgetUsage : MonoBehaviour
                             if(j == 0)
                                 dataPoints[i].text = b.ToString() + ": " + "<color=green>" + results[j].ToString() + "</color>";
                             
-                            Debug.Log(b.ToString() + ": " + "<color=green>" + results[j].ToString() + "</color>");
+                            //Debug.Log(b.ToString() + ": " + "<color=green>" + results[j].ToString() + "</color>");
                         }
                     }
+                    */
                 }
                 Marshal.FreeHGlobal(pResults);
             }

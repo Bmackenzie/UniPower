@@ -21,14 +21,12 @@ public class UniPowerManager : MonoBehaviour
     #endregion
 
     #region Variables
-
+    static bool isInitialized = false;
     static IntPtr module;
     public static int pMSRCount = 0;
 
     [SerializeField]
     private Button Btn_1 = null; // assign in the editor
-    [SerializeField]
-    private Button Btn_2 = null; // assign in the editor
 
 	[SerializeField]
     private static UniPowerManager menuManager;
@@ -38,7 +36,6 @@ public class UniPowerManager : MonoBehaviour
     void Start()
     {
         Btn_1.onClick.AddListener(() => { Btn_1_OnClick(); });
-        Btn_2.onClick.AddListener(() => { Btn_2_OnClick(); });
     }
     #endregion
     
@@ -46,37 +43,34 @@ public class UniPowerManager : MonoBehaviour
 
     private void Btn_1_OnClick()
     {
-		Debug.Log("clicked 1");
-
-        ///Load the Power Gadget library
-        LoadNativeDll("C:\\Program Files\\Intel\\Power Gadget 3.0\\EnergyLib32.dll");
-
-        //Initialize and connect to the driver
-        if (IntelEnergyLibInitialize() != true)
+        if (!isInitialized)
         {
-            Debug.Log("Failed to initialized!");
-        }
-        else
-        {
-            Debug.Log("Initialized!");
-        }
+            ///Load the Power Gadget library
+            LoadNativeDll("C:\\Program Files\\Intel\\Power Gadget 3.0\\EnergyLib32.dll");
 
-        if (pMSRCount == 0)
-        {
-            //Get the number of supported MSRs for bulk reading and logging
-            if (GetNumMsrs(out pMSRCount) == true)
+            //Initialize and connect to the driver
+            if (IntelEnergyLibInitialize() != true)
             {
-                Debug.Log("Total supported MSRs: " + pMSRCount);
+                Debug.Log("Failed to initialized!");
+            }
+            else
+            {
+                Debug.Log("Initialized!");
+            }
+
+            if (pMSRCount == 0)
+            {
+                //Get the number of supported MSRs for bulk reading and logging
+                if (GetNumMsrs(out pMSRCount) == true)
+                {
+                    Debug.Log("Total supported MSRs: " + pMSRCount);
+                }
+            }
+            else
+            {
+                Debug.Log("MSRs already queried: " + pMSRCount);
             }
         }
-        else
-        {
-            Debug.Log("MSRs already queried: " + pMSRCount);
-        }
-    }
-    private void Btn_2_OnClick()
-    {
-        Debug.Log("clicked 2");
     }
 
     /// <summary>

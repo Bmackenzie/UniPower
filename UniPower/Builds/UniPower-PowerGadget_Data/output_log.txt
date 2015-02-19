@@ -1,0 +1,59 @@
+Initialize engine version: 4.6.2f1 (bd99309c2ad7)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: Intel(R) HD Graphics Family (ID=0xa16)
+    Vendor:   Intel
+    VRAM:     896 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.045 seconds
+desktop: 1920x1080 59Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+XInput1_3.dll not found.
+<RI> Input initialized.
+Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\System.dll (this message is harmless)
+Library loaded.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+Initialized!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+Total supported MSRs: 6
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+GPU frequency: 0MHz
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+CPU Frequency: 3100MHz
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+CPUs: 1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+MsrFunc: 1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+log started C:/Users/Bryan/Documents/GitHub/UniPower/UniPower/Builds/UniPower-PowerGadget_Data
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
