@@ -1,0 +1,13 @@
+/*
+Dependency:
+In order to run the sample you will need to have Intel Power Gadget installed on the system. Which is located here: https://software.intel.com/en-us/articles/intel-power-gadget-20
+
+Integration in your application: 
+Simply drag and drop the prefab into your scene...done
+
+Extending the Sample:
+Power Gadget is a powerful tool, and provides more features than what is available in this sample. Thankful, extending the sample is simple, just take a look at the sample source and Power Gadget API. 
+
+Support:
+Have question or commetns? Feel free to contact me at Bryan.A.Mackenzie@intel.com
+*/

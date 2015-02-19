@@ -8,17 +8,11 @@ Direct3D:
 Begin MonoManager ReloadAssembly
 Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\UnityEngine.dll (this message is harmless)
 Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
-Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
 Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-CSharp.dll (this message is harmless)
 Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
-Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
-Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
-Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
 Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.045 seconds
+- Completed reload, in  0.084 seconds
 desktop: 1920x1080 59Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 XInput1_3.dll not found.
@@ -41,7 +35,7 @@ GPU frequency: 0MHz
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-CPU Frequency: 3100MHz
+CPU Frequency: 2500MHz
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
