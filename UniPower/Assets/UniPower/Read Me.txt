@@ -1,13 +1,18 @@
 /*
-Dependency:
-In order to run the sample you will need to have Intel Power Gadget installed on the system. Which is located here: https://software.intel.com/en-us/articles/intel-power-gadget-20
+Must do:
+In order to get power data you must install Intel power Gadget on the system in question. The Intel Power Gadget tool can be found the link below: 
+https://software.intel.com/en-us/articles/intel-power-gadget-20
 
 Integration in your application: 
-Simply drag and drop the prefab into your scene...done
+Simply drag and drop the UniPower prefab located in the prefab folder under UniPower. What this does add a canvas to the scene which is used to display the power data. 
 
 Extending the Sample:
-Power Gadget is a powerful tool, and provides more features than what is available in this sample. Thankful, extending the sample is simple, just take a look at the sample source and Power Gadget API. 
+Power Gadget is a powerful tool, and provides more features than what is available in this sample. Thankful, extending the sample is rather simple. To start checkout the Intel Power Gadget API located below. Note that a simple dll import of the desired API is all that is used to acquire access to the Library (view the sample source for an example. 
+https://software.intel.com/en-us/blogs/2014/01/07/using-the-intel-power-gadget-30-api-on-windows
 
 Support:
-Have question or commetns? Feel free to contact me at Bryan.A.Mackenzie@intel.com
+Support is provided at the Intel Developer Zone portal here: “https://software.intel.com/en-us/articles/intel-power-gadget-20”. Otherwise, feel free to send question or comments to me at Bryan.A.Mackenzie@intel.com
+
+EULA:
+https://software.intel.com/en-us/articles/intel-power-gadget-eula
 */

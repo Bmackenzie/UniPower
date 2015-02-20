@@ -21,6 +21,7 @@ public class UniPowerManager : MonoBehaviour
     #endregion
 
     #region Variables
+	char[] delimiters = {'/'};
     static bool isInitialized = false;
     static IntPtr module;
     public static int pMSRCount = 0;
@@ -45,8 +46,18 @@ public class UniPowerManager : MonoBehaviour
     {
         if (!isInitialized)
         {
+			/*
+			string path = "";
+			string[] splitPath = Application.dataPath.Split(delimiters);
+			foreach(string word in splitPath)
+			{
+				path += word + "\\";
+			}
+			Debug.Log(path + "Plugins\\EnergyLib32.dll");
             ///Load the Power Gadget library
-            LoadNativeDll("C:\\Program Files\\Intel\\Power Gadget 3.0\\EnergyLib32.dll");
+			LoadNativeDll(path + "Plugins\\EnergyLib32.dll");
+			*/
+			LoadNativeDll("C:\\Program Files\\Intel\\Power Gadget 3.0\\EnergyLib32.dll");
             isInitialized = true;
         }
     }
