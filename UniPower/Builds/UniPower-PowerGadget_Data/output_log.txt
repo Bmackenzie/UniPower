@@ -12,17 +12,13 @@ Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniP
 Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
 Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.058 seconds
-desktop: 1920x1080 59Hz; virtual: 1920x1080 at 0,0
+- Completed reload, in  0.041 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 XInput1_3.dll not found.
 <RI> Input initialized.
 Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Managed\System.dll (this message is harmless)
-C:\Users\Bryan\Documents\GitHub\UniPower\UniPower\Builds\UniPower-PowerGadget_Data\Plugins\EnergyLib32.dll
- 
-(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
-
 Library loaded.
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
@@ -39,7 +35,7 @@ GPU frequency: 0MHz
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-CPU Frequency: 19400MHz
+CPU Frequency: 2500MHz
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
@@ -48,6 +44,10 @@ CPUs: 1
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
 MsrFunc: 1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+log started at C:/Users/Bryan/Documents/GitHub/UniPower/UniPower/Builds/UniPower-PowerGadget_Data
  
 (Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 

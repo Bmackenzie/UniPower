@@ -46,7 +46,9 @@ public class UniPowerManager : MonoBehaviour
     {
         if (!isInitialized)
         {
-			/*
+
+			//Uncomment below if you want to place the dll into the project rather than loading at runtime. 
+			/*  
 			string path = "";
 			string[] splitPath = Application.dataPath.Split(delimiters);
 			foreach(string word in splitPath)

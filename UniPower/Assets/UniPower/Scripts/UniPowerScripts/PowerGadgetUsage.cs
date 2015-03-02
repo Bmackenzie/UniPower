@@ -8,7 +8,6 @@ using System.Runtime.InteropServices;
 
 public class PowerGadgetUsage : MonoBehaviour 
 {
-
     public Text[] dataPoints;
     public Text debug;
     bool isLogging = false;
@@ -67,50 +66,45 @@ public class PowerGadgetUsage : MonoBehaviour
 
     /*Initialization variables*/
     IntPtr module;
-    int pMSRCount = 0;
+	[SerializeField]
+    public int pMSRCount = 0;
     //Tracking variables
     int pIAFreq = 0;
     int pGTFreq = 0;
     int pMsrpFuncID = 0;
     int pNodeCount = 0;
 
-    //void OnEnable()
-    //{
-    //    InitilializeIntelPowerGadget();
-    //}
-
     /// <summary>
     /// Called once
     /// </summary>
 	void Start() 
     {
-        QueryPlatformCounters();
-
-        //Check if Intel Graphics is available on this platform, print GT frequency
-        if (IsGTAvailable() && GetGTFrequency(out pGTFreq) == true) 
-        { 
-            Debug.Log("GPU frequency: " + pGTFreq + "MHz"); 
-        } 
- 
-        //Get and print CPU frequency
-        if (GetIAFrequency(1, out pIAFreq) == true) 
-        { 
-            Debug.Log("CPU Frequency: " + pIAFreq + "MHz"); 
-        }
+		if (!Application.isEditor) {
+			QueryPlatformCounters ();
+		
+			//Check if Intel Graphics is available on this platform, print GT frequency
+			if (IsGTAvailable () == true) {
+				if (GetGTFrequency (out pGTFreq) == true) { 
+					Debug.Log ("GPU frequency: " + pGTFreq + "MHz"); 
+				} 
+			}
+			//Get and print CPU frequency
+			if (GetIAFrequency (1, out pIAFreq) == true) { 
+				Debug.Log ("CPU Frequency: " + pIAFreq + "MHz"); 
+			}
     
-        //Chek the number of CPU packages on the system
-        if (GetNumNodes(out pNodeCount) == true)
-        {
-            Debug.Log("CPUs: " + pNodeCount);
-        }
+			//Chek the number of CPU packages on the system
+			if (GetNumNodes (out pNodeCount) == true) {
+				Debug.Log ("CPUs: " + pNodeCount);
+			}
 
-        // Not sure what the purpose of this function is 
-        if (GetMsrFunc(1, out pMsrpFuncID))
-        {
-            Debug.Log("MsrFunc: " + pMsrpFuncID);
-        }
+			// Not sure what the purpose of this function is 
+			if (GetMsrFunc (1, out pMsrpFuncID)) {
+				Debug.Log ("MsrFunc: " + pMsrpFuncID);
+			}
 
-		InvokeRepeating("GetDataNew", 1, 0.2f);
+			InvokeRepeating ("GetDataNew", 1, 0.2f);
+		}
 	}
 
     /// <summary>
@@ -133,13 +127,11 @@ public class PowerGadgetUsage : MonoBehaviour
         {
             Debug.Log("Total supported MSRs: " + pMSRCount);
             Debug.Log(" library has alreay been loaded.");
-            //debug.text += " library has alreay been loaded.";
             return false;
         }
 
         //Load the module
         module = LoadLibrary(FileName);
-        //sDebug.Log("last error = " + Marshal.GetLastWin32Error());
 
         //Make sure the module has loaded sucessfully
         if (module == IntPtr.Zero)
@@ -149,7 +141,6 @@ public class PowerGadgetUsage : MonoBehaviour
         else
         {
             Debug.Log("Library loaded.");
-            //debug.text  += " library loaded";
             return true;
         }
     }
@@ -159,30 +150,17 @@ public class PowerGadgetUsage : MonoBehaviour
     /// </summary>
     void QueryPlatformCounters()
     {
-        //pMSRCount = UniPowerManager.pMSRCount;
-
         //Connect to the driver
         if (IntelEnergyLibInitialize() != true)
-        {
             Debug.Log("Failed to initialized!");
-            //debug.text += " failed to initialized!";
-
-        }
         else
-        {
             Debug.Log("Initialized!");
-            //debug.text += " and initialized!.";
-
-        }
 
         if (pMSRCount == 0)
         {
             //Get the number of supported MSRs for bulk reading and logging
             if (GetNumMsrs(out pMSRCount) == true)
-            {
-                //debug.text += pMSRCount;
                 Debug.Log("Total supported MSRs: " + pMSRCount);
-            }
         }
         else
         {
@@ -195,7 +173,6 @@ public class PowerGadgetUsage : MonoBehaviour
     int funcID = 0;
     void GetDataNew()
     {
-
         if (ReadSample())
         {
             pResults = Marshal.AllocHGlobal(sizeof(Double) * 4);
